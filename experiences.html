@@ -6,6 +6,7 @@
 <title>Savanna Edge Camp — Experiences</title>
 <meta name="description" content="Camping, wildlife viewing, guided nature walks, and guided fishing at Savanna Edge Camp.">
 <link rel="stylesheet" href="style.css">
+<script src="script.js" defer></script>
 </head>
 <body>
 
@@ -33,6 +34,19 @@
   <span class="eyebrow">Four ways to spend a day here</span>
   <h1>Experiences</h1>
   <p>Everything below runs from camp — no need to drive into the park for most of it. Activities marked <mark>Park Fee</mark> require Kenya Wildlife Service park entry; everything else happens on the boundary land we manage ourselves.</p>
+
+  <h2 style="margin-top:2rem;">Quick Spotlight</h2>
+  <p>Tap an activity for a one-line summary — full details are further down the page.</p>
+  <div class="spotlight-buttons">
+    <button type="button" class="spotlight-btn is-active" data-activity="camping">Camping</button>
+    <button type="button" class="spotlight-btn" data-activity="wildlife">Wildlife Viewing</button>
+    <button type="button" class="spotlight-btn" data-activity="walks">Nature Walks</button>
+    <button type="button" class="spotlight-btn" data-activity="fishing">Fishing</button>
+  </div>
+  <article class="card" id="spotlight-panel" style="border-color:var(--gold);">
+    <h3>Camping</h3>
+    <p>Three ways to sleep here: bring your own tent, a furnished walk-in tent, or the Riverside Family Site — all inside the electric perimeter fence along the river.</p>
+  </article>
 
   <div class="horizon-rule">
     <svg width="18" height="18" viewBox="0 0 40 40" aria-hidden="true"><path d="M20 6c-2 6-8 8-8 8s6 2 8 8c2-6 8-8 8-8s-6-2-8-8Z" fill="#4C8C86"/></svg>
