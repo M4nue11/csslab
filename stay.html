@@ -6,6 +6,7 @@
 <title>Savanna Edge Camp — Stay &amp; Rates</title>
 <meta name="description" content="Camping options and rates at Savanna Edge Camp, on the boundary of Nairobi National Park.">
 <link rel="stylesheet" href="style.css">
+<script src="script.js" defer></script>
 </head>
 <body>
 
@@ -75,23 +76,27 @@
     Weekend Packages
   </div>
 
+  <p><small class="fine">Click a package below to highlight your pick — it just updates this page, so feel free to compare a few before booking.</small></p>
+
   <div class="card-grid" style="grid-template-columns:repeat(3,1fr);">
-    <article class="card">
+    <article class="card package-card" data-name="Two-Night Explorer" data-price="KES 15,000">
       <h3>Two-Night Explorer</h3>
       <p>Furnished tent, two nights, one nature walk and one fishing session included.</p>
       <p><strong style="color:var(--gold);">From KES 15,000</strong> per person</p>
     </article>
-    <article class="card">
+    <article class="card package-card" data-name="Family Weekend" data-price="KES 9,500">
       <h3>Family Weekend</h3>
       <p>Riverside Family Site, two nights, one nature walk per adult, kids under 12 stay free.</p>
       <p><strong style="color:var(--gold);">From KES 9,500</strong> per person</p>
     </article>
-    <article class="card">
+    <article class="card package-card" data-name="Angler's Overnight" data-price="KES 4,200">
       <h3>Angler's Overnight</h3>
       <p>BYO tent, one night, two fishing sessions (dawn and evening) with a guide.</p>
       <p><strong style="color:var(--gold);">From KES 4,200</strong> per person</p>
     </article>
   </div>
+
+  <p id="package-summary" hidden></p>
 
   <hr class="thin">
 
