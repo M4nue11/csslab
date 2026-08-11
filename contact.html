@@ -6,6 +6,7 @@
 <title>Savanna Edge Camp — Book / Contact</title>
 <meta name="description" content="Reserve your stay, ask a question, or find directions to Savanna Edge Camp.">
 <link rel="stylesheet" href="style.css">
+<script src="script.js" defer></script>
 </head>
 <body>
 
@@ -76,7 +77,11 @@
 
     <section>
       <h2>Reservation Request</h2>
-      <form action="#" method="post">
+
+      <div id="form-errors" role="alert" hidden></div>
+      <div id="form-success" role="status" hidden></div>
+
+      <form action="#" method="post" id="reservation-form" novalidate>
         <fieldset>
           <legend>Your details</legend>
 
