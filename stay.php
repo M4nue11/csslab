@@ -1,3 +1,20 @@
+<?php
+/**
+ * stay.php
+ * Pulls the weekend packages and current weekend-availability
+ * percentage from MySQL instead of hard-coding them in HTML, so
+ * editing db/schema.sql (or the rows in phpMyAdmin) changes what
+ * visitors see without touching this file.
+ */
+require_once __DIR__ . '/includes/db.php';
+
+$packages = $pdo
+    ->query('SELECT name, description, price_display FROM packages ORDER BY sort_order')
+    ->fetchAll();
+
+$availabilityRow  = $pdo->query('SELECT percent_remaining FROM availability WHERE id = 1')->fetch();
+$percentRemaining = $availabilityRow ? (int) $availabilityRow['percent_remaining'] : 30;
+?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -22,8 +39,8 @@
       <ul>
         <li><a href="index.html">Home</a></li>
         <li><a href="experiences.html">Experiences</a></li>
-        <li><a href="stay.html" aria-current="page">Stay &amp; Rates</a></li>
-        <li><a href="contact.html">Book / Contact</a></li>
+        <li><a href="stay.php" aria-current="page">Stay &amp; Rates</a></li>
+        <li><a href="contact.php">Book / Contact</a></li>
       </ul>
     </nav>
   </div>
@@ -76,24 +93,18 @@
     Weekend Packages
   </div>
 
-  <p><small class="fine">Click a package below to highlight your pick — it just updates this page, so feel free to compare a few before booking.</small></p>
+  <p><small class="fine">Click a package below to highlight your pick — it just updates this page, so feel free to compare a few before booking. (These cards are loaded live from the database.)</small></p>
 
   <div class="card-grid" style="grid-template-columns:repeat(3,1fr);">
-    <article class="card package-card" data-name="Two-Night Explorer" data-price="KES 15,000">
-      <h3>Two-Night Explorer</h3>
-      <p>Furnished tent, two nights, one nature walk and one fishing session included.</p>
-      <p><strong style="color:var(--gold);">From KES 15,000</strong> per person</p>
+    <?php foreach ($packages as $pkg): ?>
+    <article class="card package-card"
+              data-name="<?php echo htmlspecialchars($pkg['name']); ?>"
+              data-price="<?php echo htmlspecialchars($pkg['price_display']); ?>">
+      <h3><?php echo htmlspecialchars($pkg['name']); ?></h3>
+      <p><?php echo htmlspecialchars($pkg['description']); ?></p>
+      <p><strong style="color:var(--gold);"><?php echo htmlspecialchars($pkg['price_display']); ?></strong> per person</p>
     </article>
-    <article class="card package-card" data-name="Family Weekend" data-price="KES 9,500">
-      <h3>Family Weekend</h3>
-      <p>Riverside Family Site, two nights, one nature walk per adult, kids under 12 stay free.</p>
-      <p><strong style="color:var(--gold);">From KES 9,500</strong> per person</p>
-    </article>
-    <article class="card package-card" data-name="Angler's Overnight" data-price="KES 4,200">
-      <h3>Angler's Overnight</h3>
-      <p>BYO tent, one night, two fishing sessions (dawn and evening) with a guide.</p>
-      <p><strong style="color:var(--gold);">From KES 4,200</strong> per person</p>
-    </article>
+    <?php endforeach; ?>
   </div>
 
   <p id="package-summary" hidden></p>
@@ -104,8 +115,8 @@
     <h2>Booking progress this month</h2>
     <p>Weekends fill up fastest, especially the Family Weekend package.</p>
     <label for="fill">Weekend availability remaining</label>
-    <progress id="fill" value="30" max="100" style="max-width:400px;"></progress>
-    <p><small class="fine">30% of weekend sites remain for the upcoming month — figures are illustrative for this class project.</small></p>
+    <progress id="fill" value="<?php echo $percentRemaining; ?>" max="100" style="max-width:400px;"></progress>
+    <p><small class="fine"><?php echo $percentRemaining; ?>% of weekend sites remain for the upcoming month — pulled live from the database (edit the <code>availability</code> table in phpMyAdmin to change it).</small></p>
   </section>
 
   <details>
@@ -114,7 +125,7 @@
   </details>
 
   <p style="margin-top:1.5rem;">
-    <a class="btn" href="contact.html">Book your dates &rarr;</a>
+    <a class="btn" href="contact.php">Book your dates &rarr;</a>
   </p>
 
 </main>
@@ -129,8 +140,8 @@
       <ul>
         <li><a href="index.html">Home</a></li>
         <li><a href="experiences.html">Experiences</a></li>
-        <li><a href="stay.html">Stay &amp; Rates</a></li>
-        <li><a href="contact.html">Book / Contact</a></li>
+        <li><a href="stay.php">Stay &amp; Rates</a></li>
+        <li><a href="contact.php">Book / Contact</a></li>
       </ul>
     </nav>
     <small class="fine">&copy; 2026 Savanna Edge Camp. A fictional campsite made for a class project.</small>
