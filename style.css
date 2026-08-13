@@ -1,3 +1,16 @@
+/* ============================================================
+   SAVANNA EDGE CAMP — shared design system
+   Concept: Nairobi National Park is the only park on earth that
+   borders a capital city skyline — wildlife with skyscrapers behind
+   it. That contrast (wild grass + city silhouette) is the signature.
+
+   Palette:  #182016 (bush-night)  #26331F (olive panel)
+             #D9A544 (dry-grass gold)   #4C8C86 (dam teal)
+             #F1EAD9 (canvas cream)     #A9AF97 (sage muted)
+   Type:     "DM Serif Display" (headings, logbook gravitas)
+             "Karla" (body, plain and legible)
+   ============================================================ */
+
 @import url('https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=Karla:wght@400;500;700&display=swap');
 
 :root{
