@@ -138,23 +138,24 @@ function initPackageSelector() {
 }
 
 /* ------------------------------------------------------------
-   5. FORM VALIDATION + CONFIRMATION (Book / Contact page)
-   Checks every required field on submit. If any are blank, the
-   submission is stopped and an error message is shown, with the
-   first empty field focused and outlined. If everything is
-   filled in, a confirmation message is displayed and the form
-   resets — no real backend, this is a class project.
+   5. FORM VALIDATION (Book / Contact page)
+   Checks every required field the moment Submit is pressed. If
+   any are blank, the submission is stopped client-side and an
+   error message is shown, with the first empty field focused and
+   outlined. If everything looks filled in, the function does
+   nothing further and lets the browser genuinely submit the form
+   to process_reservation.php — that PHP script re-validates on
+   the server (never trust the client alone), saves the row to
+   MySQL, and redirects back to this page with ?status=success or
+   ?status=error, which contact.php then renders as the banner.
    ------------------------------------------------------------ */
 function initContactForm() {
   var form = document.getElementById('reservation-form');
   if (!form) return;
 
   var errorBox = document.getElementById('form-errors');
-  var successBox = document.getElementById('form-success');
 
   form.addEventListener('submit', function (event) {
-    event.preventDefault();
-
     var errors = [];
     var requiredFields = form.querySelectorAll('[required]');
 
@@ -167,16 +168,17 @@ function initContactForm() {
     });
 
     if (errors.length > 0) {
-      successBox.hidden = true;
-      errorBox.hidden = false;
-      errorBox.textContent = 'Please fill in all required fields (' + errors.length + ' left blank) before sending your request.';
+      event.preventDefault(); // don't submit to the server yet
+      if (errorBox) {
+        errorBox.hidden = false;
+        errorBox.textContent = 'Please fill in all required fields (' + errors.length + ' left blank) before sending your request.';
+      }
       errors[0].focus();
       return;
     }
 
-    errorBox.hidden = true;
-    successBox.hidden = false;
-    successBox.textContent = 'Thanks! Your reservation request has been noted. We\u2019ll confirm availability by email within 24 hours.';
-    form.reset();
+    // Validation passed — let the browser submit the form normally.
+    // No preventDefault() here: the POST goes to process_reservation.php,
+    // which saves it to the database and redirects back with a status.
   });
 }
