@@ -1,3 +1,25 @@
+<?php
+/**
+ * contact.php
+ * Reads the ?status=success / ?status=error flag set by
+ * process_reservation.php after a form submission, and turns it
+ * into the banner text shown near the top of the reservation form.
+ */
+$statusType = '';
+$statusMsg  = '';
+
+if (isset($_GET['status'])) {
+    if ($_GET['status'] === 'success') {
+        $statusType = 'success';
+        $statusMsg  = 'Thanks! Your reservation request has been saved to our system. We’ll confirm availability by email within 24 hours.';
+    } elseif ($_GET['status'] === 'error') {
+        $statusType = 'error';
+        $statusMsg  = isset($_GET['msg'])
+            ? htmlspecialchars($_GET['msg'])
+            : 'Something went wrong. Please check the form and try again.';
+    }
+}
+?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -22,8 +44,8 @@
       <ul>
         <li><a href="index.html">Home</a></li>
         <li><a href="experiences.html">Experiences</a></li>
-        <li><a href="stay.html">Stay &amp; Rates</a></li>
-        <li><a href="contact.html" aria-current="page">Book / Contact</a></li>
+        <li><a href="stay.php">Stay &amp; Rates</a></li>
+        <li><a href="contact.php" aria-current="page">Book / Contact</a></li>
       </ul>
     </nav>
   </div>
@@ -78,10 +100,10 @@
     <section>
       <h2>Reservation Request</h2>
 
-      <div id="form-errors" role="alert" hidden></div>
-      <div id="form-success" role="status" hidden></div>
+      <div id="form-errors" role="alert" <?php echo $statusType === 'error' ? '' : 'hidden'; ?>><?php echo $statusType === 'error' ? $statusMsg : ''; ?></div>
+      <div id="form-success" role="status" <?php echo $statusType === 'success' ? '' : 'hidden'; ?>><?php echo $statusType === 'success' ? $statusMsg : ''; ?></div>
 
-      <form action="#" method="post" id="reservation-form" novalidate>
+      <form action="process_reservation.php" method="post" id="reservation-form" novalidate>
         <fieldset>
           <legend>Your details</legend>
 
@@ -148,7 +170,7 @@
 
         <button type="submit">Send reservation request</button>
       </form>
-      <p><small class="fine">This is a class-project form and does not send real bookings — for demonstration purposes only.</small></p>
+      <p><small class="fine">Submissions are saved to a MySQL database via PHP for this class project — no real bookings are made, but the data really is stored.</small></p>
     </section>
   </div>
 
@@ -164,8 +186,8 @@
       <ul>
         <li><a href="index.html">Home</a></li>
         <li><a href="experiences.html">Experiences</a></li>
-        <li><a href="stay.html">Stay &amp; Rates</a></li>
-        <li><a href="contact.html">Book / Contact</a></li>
+        <li><a href="stay.php">Stay &amp; Rates</a></li>
+        <li><a href="contact.php">Book / Contact</a></li>
       </ul>
     </nav>
     <small class="fine">&copy; 2026 Savanna Edge Camp. A fictional campsite made for a class project.</small>
